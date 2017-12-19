@@ -7,7 +7,7 @@
 import React, { Component } from "react"
 import "./styles/api-caller.css"
 import env from "../env/env"
-import test from "../env/test"
+import test from "../modules/test"
 import "@shopify/polaris/styles.css"
 import { Button, TextField, Label } from "@shopify/polaris"
 
