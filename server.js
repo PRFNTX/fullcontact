@@ -1,3 +1,6 @@
+/*
+This file exists as a simple way of getting past CORS issues with the twitter api
+*/
 const express=require('express')
 const app=express()
 

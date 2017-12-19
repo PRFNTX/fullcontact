@@ -1,3 +1,9 @@
+/*
+	this file calls the API then renders a component it was provided and sends it the data as a prop.
+	it will also apply any functions it was given to the data before passing it.
+*/
+
+
 import React, { Component } from "react"
 import "./styles/api-caller.css"
 import env from "../env/env"
@@ -18,46 +24,21 @@ class APICaller extends Component{
 		}
 		this.newCall=false
 	}
-	
+	//this just wraps the data in a promise for uniformity
 	async wrap(val){
 		val.show={key:"email",value:val.email}
 		return {data:val}
 	}
-	/*
-	shouldComponentUpdate(nextProps,nextState){
-		if (nextState.fieldValue!==this.state.fieldValue){
-			return true
-		}
-		if (nextProps.data && Object.keys(nextProps.data).length){
-			if (nextProps.data.email===this.props.data.email){
-				console.log("1")
-				return false
-			}
-		} 
 
-		if (!(this.state.filterData) && (nextState.filterData)){
-			console.log("3")
-			return true
-		}
-
-		if (nextState.data){
-			if (nextState.data.email!==this.state.data.email){
-				console.log("4")
-				return true
-			}
-		}
-		console.log("5")
-		return false
-		
-	}
-*/
-//this is just for showing dummy data
+    //this is just for showing dummy data
 	componentWillMount(){
 		this.setState({
 			data:test
 		})
 		this.mapData(test)
 	}
+	//prevents multiple calls to any apis unless new data is requested
+	//TODO fix this incase somone types into the input field before the data is sent.
 	componentDidUpdate(){
 		if (this.newCall){
 			this.mapData(this.state.data)
@@ -67,16 +48,17 @@ class APICaller extends Component{
 
 /// This function takes the data and decides what to do with it before showing it
 	mapData=(data)=>{
-		//for testing purposes
 		
 		this.newCall=false
 		let mappingData =this.props.secondary.map(secondary_API_call=>{
 			if (!(secondary_API_call)){
 				//do nothing
+				
 				return this.wrap(data)
 			}
 			else {
 				//send it to an api
+				//or through a provided function
 				return secondary_API_call(data).catch(err=>console.log(err))
 			}
 		})
@@ -90,8 +72,11 @@ class APICaller extends Component{
 	}
 	
 	handleSubmit=(e)=>{
-		
+		//this is the api call to full contact	
+		console.log(e)
 		e.preventDefault()
+		//react started giving me synthetic events
+		//but not always
 		this.newCall=true	
 		axios.post(
 			"https://api.fullcontact.com/v3/person.enrich",
@@ -112,6 +97,7 @@ class APICaller extends Component{
 	}
 
 	render(){
+		//set up the provided components
 		let DataDisplayer=this.props.use
 		let DataHandler
 		if (this.state.filterData.length){
@@ -125,9 +111,9 @@ class APICaller extends Component{
 		}
 		return(
 			<div className="container">
-				<form onSubmit={(e)=>{this.handleSubmit(e)}}>
+				<form onSubmit={(e)=>{this.handleSubmit(e.nativeEvent)}}>
 					<TextField label="Email address: " type="email" name="email" placeholder="e.g. example@email.com" value={this.state.fieldValue} onChange={(newValue)=>this.setState({fieldValue:newValue})} required/>
-					<Button>Submit</Button>
+					<Button submit="true">Submit</Button>
 				</form>		
 				{DataHandler}
 			</div>
