@@ -42,7 +42,6 @@ class APIShowData extends Component{
 
 	render(){
 		let data=this.props.data
-		console.log(data)
 		let table=this.tableObject(this.props.data)
 		return(
 			<div className="container">
