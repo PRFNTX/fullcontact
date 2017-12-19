@@ -2,6 +2,12 @@ import axios from "axios"
 import env from "../env/env"
 import Twitter from "twitter"
 
+//TODO move this to module, or just do it a proper way
+async function wrap(val){
+	val.show={key:"email",value:val.email}
+	return {data:val}
+}
+
 class SocialCalls{
 
 	Facebook(data){
@@ -9,9 +15,12 @@ class SocialCalls{
 	}
 
 	Twitter=(data)=>{
-		let splitTwit=data.twitter.split("/")
-		let user=splitTwit[splitTwit.length-1]
-		return axios.get("/twitter?user="+user)
+		if (Object.keys(data).includes("twitter")){
+			let splitTwit=data.twitter.split("/")
+			let user=splitTwit[splitTwit.length-1]
+			return axios.get("/twitter?user="+user)
+		}
+		else return wrap({data})
 	}
 
 	Instagram(data){

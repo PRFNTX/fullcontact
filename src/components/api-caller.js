@@ -93,7 +93,12 @@ class APICaller extends Component{
 					data:result.data,
 				})
 			}
-		).catch(err=>console.log(err))
+		).catch(err=>{
+			console.log(err)
+			this.setState({
+				data:{ email:e.target.elements.email.value,result:"404 from server" }
+			})
+		})
 	}
 
 	render(){

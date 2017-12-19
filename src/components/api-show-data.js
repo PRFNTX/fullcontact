@@ -5,7 +5,7 @@
 import React, { Component } from "react"
 
 //use this if you dont want to use to api
-import testData from "../env/test"
+import testData from "../modules/test"
 import "./styles/api-display.css"
 
 class APIShowData extends Component{
