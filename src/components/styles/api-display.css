@@ -1,0 +1,28 @@
+td{
+	vertical-align:top;	
+}
+
+body{
+	font-size:1vw;
+}
+
+h2{
+	font-size:3vw;
+	margin-bottom:2vw;
+}
+
+table{
+	position:relative;
+	table-layout:fixed;
+}
+
+tr:last-child{
+	width:70%;
+}
+tr:first-child{
+	width:30%;
+}
+
+td{
+	word-wrap:break-word;
+}
